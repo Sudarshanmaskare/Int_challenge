@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool can(vector<int> &wt,int n,int m,int mid){
+        int s=1;
+        int cur=0;
+        for(int i=0;i<n;i++){
+            
+            if(wt[i]>mid) return false;
+            
+            if(cur+wt[i]>mid){
+                s++;
+                cur=wt[i];
+                if(s>m) return false;
+            }
+            else{
+                cur+=wt[i];
+            }
+        }
+        return true;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int start=0;
+        int end=0;
+        int sum=0;
+        int n=weights.size();
+        for(auto i:weights){
+            sum+=i;
+            if(start<i){
+                start=i;
+            }
+        }
+        end=sum;
+        
+        int ans=INT_MAX;
+        
+        while(start<=end){
+            int mid=(start+end)/2;
+            
+            if(can(weights,n,days,mid)){
+                ans=min(ans,mid);
+                end=mid-1;
+            }
+            else{
+                start=mid+1;
+            }
+        }
+        return ans;
+    }
+};
