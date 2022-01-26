@@ -1,0 +1,36 @@
+class Solution {
+public:
+   bool safe(vector<int> &nums,int m,int mid){
+       int per=1,sum=nums[0];
+       for(int i=1;i<nums.size();i++){
+           sum+=nums[i];
+           if(sum>mid){
+               sum=nums[i];
+               per++;
+           }
+           if(per>m){
+               return false;
+           }
+                            }
+       return true;
+   }
+    int splitArray(vector<int>& nums, int m) {
+      int l=INT_MIN,h=0;
+      for(auto m:nums){
+          l=max(l,m);
+          h+=m;
+      }
+        int res=-1;
+        while(l<=h){
+            int mid=(l+h)>>1;
+            if(safe(nums,m,mid)){
+                h=mid-1;
+                res=mid;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return res;
+    }
+};
